@@ -1,0 +1,7 @@
+name: venv
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - postgresql
+prefix: /home/dan/anaconda3/envs/venv
