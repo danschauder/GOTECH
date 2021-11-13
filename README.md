@@ -5,6 +5,7 @@
 ## Dependencies
 * Linux (Preferably Ubuntu 20.04)
 * Anaconda or Miniconda (Available here: https://docs.conda.io/en/latest/miniconda.html#linux-installers)
+* Admin/su privileges
 
 ## Installation
 * Download and unzip repo
