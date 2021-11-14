@@ -91,10 +91,20 @@ class CALIPSOExtractor():
             gdf.to_postgis(name='calipso',con=engine,if_exists='append',schema='raw')
             if self.verbose:
                 print('Added data')
-        elif self.verbose:
-            print('Skipping file, all records outside bounding box')
+            return True
+        else:
+            if self.verbose:
+                print('Skipping file, all records outside bounding box')
+            return False
 
     def parallelized_download(self,num_workers):
+        ##Do the first one individual to avoid conflicts with create table statements
+        table_exists=False
+        while not table_exists:
+            file = self.files.pop()
+            table_exists = self.download_files(file)
+
+        ## After the table has been created, paralellize the remaining downloads
         with Pool(num_workers) as p:
             p.map(self.download_files,self.files)
 
