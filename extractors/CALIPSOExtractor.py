@@ -87,6 +87,7 @@ class CALIPSOExtractor():
         #         print('no matches found yet')
         if df is not None:
             gdf = gp.GeoDataFrame(df,geometry=gp.points_from_xy(df.Longitude,df.Latitude))
+            gdf['geometry']=gdf['geometry'].set_crs(epsg=4326)
             engine = create_engine('postgresql://{}@{}:{}/{}'.format("GOTECH", "127.0.0.1",5432, "coral_data"))
             gdf.to_postgis(name='calipso',con=engine,if_exists='append',schema='raw')
             if self.verbose:
@@ -105,8 +106,8 @@ class CALIPSOExtractor():
             table_exists = self.download_files(file)
 
         ## After the table has been created, paralellize the remaining downloads
-        with Pool(num_workers) as p:
-            p.map(self.download_files,self.files)
+        # with Pool(num_workers) as p:
+        #     p.map(self.download_files,self.files)
 
     def extract_and_load(self):
         self.get_filenames()
