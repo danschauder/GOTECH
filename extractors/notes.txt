@@ -1,5 +1,0 @@
-https://allencoralatlas.org/geoserver/ows?service=wfs&version=2.0.0&request=GetFeature&typeNames=coral-atlas:benthic_data_verbose&bbox=23.0,-77.0,23.0001,-76.99&outputFormat=shape-zip
-https://allencoralatlas.org/geoserver/ows?service=wfs&version=2.0.0&request=GetFeature&typeNames=coral-atlas:benthic_data_verbose&bbox=-81.833,24.517,-81.542,24.645&outputFormat=shape-zip
-https://allencoralatlas.org/geoserver/ows?service=wfs&version=2.0.0&request=GetFeature&typeNames=coral-atlas:benthic_data_verbose&bbox=-82.0,24.0,-80.0,25.0&outputFormat=shape-zip
-https://allencoralatlas.org/geoserver/ows?service=wfs&version=2.0.0&request=GetFeature&typeNames=coral-atlas:benthic_data_verbose&bbox=-83.047,24.5,-82.65,24.78&outputFormat=shape-zip
-https://allencoralatlas.org/geoserver/ows?service=wfs&version=2.0.0&request=GetFeature&typeNames=coral-atlas:benthic_data_verbose&bbox=24.5,-83.047,24.78,-82.65&outputFormat=shape-zip

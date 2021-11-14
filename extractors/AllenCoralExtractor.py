@@ -1,4 +1,4 @@
-from owslib.wms import WebMapService
+import subprocess
 
 class AllenCoralExtractor():
     def __init__(self):
@@ -7,6 +7,5 @@ class AllenCoralExtractor():
         """
         pass
 
-    def test(self):
-        wms = WebMapService('https://allencoralatlas.org/geoserver/ows?service=wms', version='1.3.0')
-        print(wms.identification.type)
+    def extract_and_load(self):
+        subprocess.call(['sh', './allen.sh'])

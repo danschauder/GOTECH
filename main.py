@@ -1,8 +1,8 @@
 from extractors.AllenCoralExtractor import AllenCoralExtractor
 
 def main():
-    extractor = AllenCoralExtractor()
-    extractor.test()
+    aca_extractor = AllenCoralExtractor()
+    aca_extractor.extract_and_load()
 
 if __name__=="__main__":
     main()
