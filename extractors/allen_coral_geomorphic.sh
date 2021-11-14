@@ -1,0 +1,3 @@
+wget "https://allencoralatlas.org/geoserver/ows?service=wfs&version=2.0.0&request=GetFeature&typeNames=coral-atlas:geomorphic_data_verbose&srsName=EPSG:3857&bbox=24.5,-83.047,24.78,-82.65&outputFormat=shape-zip" -O ./downloads/aca_geomorphic.zip
+unzip -d ./downloads/aca_geomorphic/ ./downloads/aca_geomorphic.zip
+ogr2ogr -f "PostgreSQL" PG:"host=localhost port=5432 user=GOTECH dbname=coral_data" "./downloads/aca_geomorphic/geomorphic_data_verbose.shp" -nln raw.aca_geomorphic -geomfield geom
