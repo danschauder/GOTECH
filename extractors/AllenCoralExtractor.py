@@ -1,3 +1,5 @@
+from owslib.wms import WebMapService
+
 class AllenCoralExtractor():
     def __init__(self):
         """
@@ -6,4 +8,5 @@ class AllenCoralExtractor():
         pass
 
     def test(self):
-        print('this is a test')
+        wms = WebMapService('https://allencoralatlas.org/geoserver/ows?service=wms', version='1.3.0')
+        print(wms.identification.type)

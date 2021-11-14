@@ -14,3 +14,16 @@
 ```
 conda env create -f environment.yml
 ```
+* Activate the conda environment with the following command
+```
+conda activate GOTECH_env
+```
+
+## Database installation
+With the conda environment active, navigate to the project root and run the following command:
+```
+bash postgis_setup.sh
+```
+This will instantiate a postgresql database and activate the postgis extensions
+
+## Extractors
