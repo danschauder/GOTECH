@@ -8,4 +8,4 @@ class AllenCoralExtractor():
         pass
 
     def extract_and_load(self):
-        subprocess.call(['sh', './allen.sh'])
+        subprocess.call(['sh', './extractors/allen.sh'])
