@@ -99,15 +99,15 @@ class CALIPSOExtractor():
             return False
 
     def parallelized_download(self,num_workers):
-        ##Do the first one individual to avoid conflicts with create table statements
+        ##Do the first one individually to avoid conflicts with create table statements
         table_exists=False
         while not table_exists:
             file = self.files.pop()
             table_exists = self.download_files(file)
 
-        ## After the table has been created, paralellize the remaining downloads
-        # with Pool(num_workers) as p:
-        #     p.map(self.download_files,self.files)
+        ## After the table has been created, parallelize the remaining downloads
+        with Pool(num_workers) as p:
+            p.map(self.download_files,self.files)
 
     def extract_and_load(self):
         self.get_filenames()
