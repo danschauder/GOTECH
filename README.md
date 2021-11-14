@@ -22,7 +22,7 @@ conda activate GOTECH_env
 ## Database installation
 With the conda environment active, navigate to the project root and run the following command:
 ```
-bash postgis_setup.sh
+python main.py --setup_db
 ```
 This will instantiate a postgresql database and activate the postgis extensions
 
