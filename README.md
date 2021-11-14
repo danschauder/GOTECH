@@ -14,3 +14,36 @@
 ```
 conda env create -f environment.yml
 ```
+* Activate the conda environment with the following command
+```
+conda activate GOTECH_env
+```
+
+## Database installation
+With the conda environment active, navigate to the project root and run the following command:
+```
+bash postgis_setup.sh
+```
+This will instantiate a postgresql database and activate the postgis extensions
+
+## Database Commands
+Run the following command to start the database instance
+```
+python main.py --start_db
+```
+
+Run the following command to stop the database instance
+```
+python main.py --stop_db
+```
+
+## Extractors
+Run the following command to download Allen Coral Atlas benthic data and ingest it into the db
+```
+python main.py --get_aca_benthic
+```
+
+Run the following command to download Allen Coral Atlas geomorphic data and ingest it into the db
+```
+python main.py --get_aca_geomorphic
+```

@@ -1,0 +1,1 @@
+pg_ctl -D db -l db/log start;
