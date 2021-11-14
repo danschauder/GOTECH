@@ -1,6 +1,7 @@
 import subprocess, argparse
 from extractors.AllenCoralBenthicExtractor import AllenCoralBenthicExtractor
 from extractors.AllenCoralGeomorphicExtractor import AllenCoralGeomorphicExtractor
+from extractors.CALIPSOExtractor import CALIPSOExtractor
 
 def main():
 
@@ -23,6 +24,9 @@ def main():
 
     parser.add_argument('--get_aca_geomorphic', dest='get_aca_geomorphic',action='store_true')
     parser.set_defaults(get_aca_geomorphic=False)
+
+    parser.add_argument('--get_calipso', dest='get_calipso',action='store_true')
+    parser.set_defaults(get_calipso=False)
 
 
     args = parser.parse_args()
@@ -56,6 +60,15 @@ def main():
             print('Loading Allen Coral Atlas geomorphic data into the database')
         aca_geomorphic_extractor = AllenCoralGeomorphicExtractor()
         aca_geomorphic_extractor.extract_and_load()
+
+
+    ## API for CALIPSO downloads/imports
+    if args.get_calipso:
+        if args.verbose:
+            print('Loading CALIPSO data into the database')
+        calipso_extractor = CALIPSOExtractor(verbose=args.verbose)
+        calipso_extractor.extract_and_load()
+
 
     
 
