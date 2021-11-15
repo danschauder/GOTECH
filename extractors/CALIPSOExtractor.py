@@ -110,6 +110,9 @@ class CALIPSOExtractor():
             p.map(self.download_files,self.files)
 
     def extract_and_load(self):
+        start=time.time()
         self.get_filenames()
         self.parallelized_download(16)
+        if self.verbose:
+            print(f'Total time elapsed: {time.time()-start} seconds')
         
