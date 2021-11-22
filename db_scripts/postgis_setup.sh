@@ -6,3 +6,5 @@ psql -d coral_data -U GOTECH -c 'CREATE EXTENSION postgis;';
 psql -d coral_data -U GOTECH -c 'CREATE EXTENSION postgis_raster;';
 psql -d coral_data -U GOTECH -c 'CREATE EXTENSION postgis_topology;';
 psql -d coral_data -U GOTECH -c 'CREATE SCHEMA raw;';
+psql -d coral_data -U GOTECH -c 'CREATE SCHEMA staging;';
+psql -d coral_data -U GOTECH -c 'CREATE SCHEMA models;';
