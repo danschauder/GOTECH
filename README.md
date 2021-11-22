@@ -38,12 +38,17 @@ python main.py --stop_db
 ```
 
 ## Extractors
-Run the following command to download Allen Coral Atlas benthic data and ingest it into the db
+With the database instance running, run the following command to download Allen Coral Atlas benthic data and ingest it into the db
 ```
 python main.py --get_aca_benthic
 ```
 
-Run the following command to download Allen Coral Atlas geomorphic data and ingest it into the db
+With the database instance running, run the following command to download Allen Coral Atlas geomorphic data and ingest it into the db
 ```
 python main.py --get_aca_geomorphic
+```
+
+With the database instance running, run the following command to download CALIPSO data and ingest it into the db
+```
+python main.py --get_calipso
 ```
