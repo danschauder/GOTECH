@@ -12,13 +12,13 @@ from sqlalchemy import create_engine
 from multiprocessing import Pool
 
 class CALIPSOExtractor():
-    def __init__(self,years=['2021'],months=['04'],verbose=False):
+    def __init__(self,years=['2015'],months=['01','02','03','04','05','06','07','08','09','10','11','12'],verbose=False):
         self.years=years
         self.months=months
         self.verbose=verbose
-        self.baseurl = 'https://opendap.larc.nasa.gov/opendap/CALIPSO/LID_L1-Standard-V4-11'
+        self.baseurl = 'https://opendap.larc.nasa.gov/opendap/CALIPSO/LID_L1-Standard-V4-10'
 
-    def get_calipso_data(self,url,lat_range=[15.0,29.0],lon_range=[-90.0,-60.6]):
+    def get_calipso_data(self,url,lat_range=[24.208717346191,26.405982971191],lon_range=[-82.882919311523,-79.850692749023]):
         """
         Function to download CALIPSO data for a given url
         """
@@ -34,25 +34,20 @@ class CALIPSOExtractor():
         if len(indices>0):
             min_index=np.min(indices)
             max_index=np.max(indices)
-            lat = np.array(dataset['Latitude'][min_index:max_index+1].data)
-            latitude = lat.ravel()
-            lon = np.array(dataset['Longitude'][min_index:max_index+1].data)
-            longitude = lon.ravel()
-            time_UTC = np.array(dataset['Profile_UTC_Time'][min_index:max_index+1]).astype('float')
-            time_UTC=time_UTC.ravel()
-            perp_bs_532_578=np.array(dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,578:579]).ravel()
-            perp_bs_532_579=np.array(dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,579:580]).ravel()
-            perp_bs_532_580=np.array(dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,580:581]).ravel()
-            perp_bs_532_581=np.array(dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,581:582]).ravel()
-            perp_bs_532_582=np.array(dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,582:583]).ravel()
-            df = pd.DataFrame(data={'time_UTC':time_UTC,
-                                'Latitude': latitude,
-                                    'Longitude':longitude,
-                                'perp_bs_532_578':perp_bs_532_578,
-                                'perp_bs_532_579':perp_bs_532_579,
-                                'perp_bs_532_580':perp_bs_532_580,
-                                'perp_bs_532_581':perp_bs_532_581,
-                                'perp_bs_532_582':perp_bs_532_582,})
+            data_dict={}
+            data_dict['Latitude']=np.array(dataset['Latitude'][min_index:max_index+1].data).ravel()
+            data_dict['Longitude']=np.array(dataset['Longitude'][min_index:max_index+1].data).ravel()
+            data_dict['Land_Water_Mask']=np.array(dataset['Land_Water_Mask'][min_index:max_index+1].data).ravel()
+            data_dict['time_UTC']=np.array(dataset['Profile_UTC_Time'][min_index:max_index+1]).astype('float').ravel()
+            backscatter_532=dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,:].data
+            for i in range(backscatter_532.shape[1]):
+                data_dict[f'perp_bs_532_{i+1}']=backscatter_532[:,i]
+            # perp_bs_532_578=np.array(dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,578:579]).ravel()
+            # perp_bs_532_579=np.array(dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,579:580]).ravel()
+            # perp_bs_532_580=np.array(dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,580:581]).ravel()
+            # perp_bs_532_581=np.array(dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,581:582]).ravel()
+            # perp_bs_532_582=np.array(dataset['Perpendicular_Attenuated_Backscatter_532'][min_index:max_index+1,582:583]).ravel()
+            df = pd.DataFrame(data=data_dict)
             return df
 
     def get_filenames(self):
@@ -69,22 +64,9 @@ class CALIPSOExtractor():
             print(f'Found a total of {len(self.files)} CALIPSO files')
 
     def download_files(self,file):
-        # start=time.time()
-        # print(len(files))
-        ## Initialize a Pandas DataFrame with the first file
-        # df = self.get_calipso_data(f'{self.baseurl}/{files[0][0]}/{files[0][1]}/{files[0][2]}')
-        # for idx, file in enumerate(files[1:]):
         if self.verbose:
             print(f'Fetching and appending data for file {file}')
         df = self.get_calipso_data(f'{self.baseurl}/{file[0]}/{file[1]}/{file[2]}')
-        # if df is not None and df_new is not None:
-        #     df = pd.concat([df,df_new])
-
-        #     print(f'File {idx} downloaded. Total time elapsed: {time.time()-start} seconds')
-        #     if df is not None:
-        #         print(df.shape)
-        #     else:
-        #         print('no matches found yet')
         if df is not None:
             gdf = gp.GeoDataFrame(df,geometry=gp.points_from_xy(df.Longitude,df.Latitude))
             gdf['geometry']=gdf['geometry'].set_crs(epsg=4326)
@@ -96,10 +78,11 @@ class CALIPSOExtractor():
         else:
             if self.verbose:
                 print('Skipping file, all records outside bounding box')
+                # print('.')
             return False
 
     def parallelized_download(self,num_workers):
-        ##Do the first one individually to avoid conflicts with create table statements
+        #Do the first one individually to avoid conflicts with create table statements
         table_exists=False
         while not table_exists:
             file = self.files.pop()
@@ -115,4 +98,8 @@ class CALIPSOExtractor():
         self.parallelized_download(16)
         if self.verbose:
             print(f'Total time elapsed: {time.time()-start} seconds')
+
+# if __name__=="__main__":
+#     extractor = CALIPSOExtractor()
+#     extractor.get_calipso_data('https://opendap.larc.nasa.gov/opendap/CALIPSO/LID_L1-Standard-V4-11/2021/04/CAL_LID_L1-Standard-V4-11.2021-04-02T07-41-12ZN.hdf')
         
