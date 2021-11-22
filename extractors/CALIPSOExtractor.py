@@ -12,7 +12,7 @@ from sqlalchemy import create_engine
 from multiprocessing import Pool
 
 class CALIPSOExtractor():
-    def __init__(self,years=['2015'],months=['01','02','03','04','05','06','07','08','09','10','11','12'],verbose=False):
+    def __init__(self,years=['2016'],months=['01','02','03','04','05','06','07','08','09','10','11','12'],verbose=False):
         self.years=years
         self.months=months
         self.verbose=verbose
@@ -95,7 +95,7 @@ class CALIPSOExtractor():
     def extract_and_load(self):
         start=time.time()
         self.get_filenames()
-        self.parallelized_download(16)
+        self.parallelized_download(24)
         if self.verbose:
             print(f'Total time elapsed: {time.time()-start} seconds')
 
