@@ -138,6 +138,3 @@ cython_debug/
 
 # Database files
 db/
-
-# Data downloads
-downloads/
