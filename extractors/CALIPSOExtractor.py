@@ -12,7 +12,7 @@ from sqlalchemy import create_engine
 from multiprocessing import Pool
 
 class CALIPSOExtractor():
-    def __init__(self,years=['2017','2018','2019'],months=['01','02','03','04','05','06','07','08','09','10','11','12'],verbose=False):
+    def __init__(self,years=['2020'],months=['01','02','03','04','05','06'],verbose=False):
         self.years=years
         self.months=months
         self.verbose=verbose
