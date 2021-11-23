@@ -51,7 +51,7 @@ def main():
     ## API for Allen Coral Atlas downloads/imports
     if args.get_aca_benthic:
         if args.verbose:
-            print('Loading Allen Coral Atlas geomorphic data into the database')
+            print('Loading Allen Coral Atlas benthic data into the database')
         aca_benthic_extractor = AllenCoralBenthicExtractor()
         aca_benthic_extractor.extract_and_load()
     
