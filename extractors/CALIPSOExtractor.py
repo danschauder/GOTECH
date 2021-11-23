@@ -12,11 +12,11 @@ from sqlalchemy import create_engine
 from multiprocessing import Pool
 
 class CALIPSOExtractor():
-    def __init__(self,years=['2020'],months=['01','02','03','04','05','06'],verbose=False):
+    def __init__(self,years=['2020'],months=['07','08','09','10','11','12'],verbose=False):
         self.years=years
         self.months=months
         self.verbose=verbose
-        self.baseurl = 'https://opendap.larc.nasa.gov/opendap/CALIPSO/LID_L1-Standard-V4-10'
+        self.baseurl = 'https://opendap.larc.nasa.gov/opendap/CALIPSO/LID_L1-Standard-V4-11'
 
     def get_calipso_data(self,url,lat_range=[24.208717346191,26.405982971191],lon_range=[-82.882919311523,-79.850692749023]):
         """
@@ -95,7 +95,7 @@ class CALIPSOExtractor():
     def extract_and_load(self):
         start=time.time()
         self.get_filenames()
-        self.parallelized_download(24)
+        self.parallelized_download(16)
         if self.verbose:
             print(f'Total time elapsed: {time.time()-start} seconds')
 
