@@ -28,6 +28,11 @@ def main():
     parser.add_argument('--get_calipso', dest='get_calipso',action='store_true')
     parser.set_defaults(get_calipso=False)
 
+    parser.add_argument('--latitude_min', dest='latitude_min',type=float)
+    parser.add_argument('--latitude_max', dest='latitude_max',type=float)
+    parser.add_argument('--longitude_min', dest='longitude_min',type=float)
+    parser.add_argument('--longitude_max', dest='longitude_max',type=float)
+
 
     args = parser.parse_args()
 
@@ -47,12 +52,19 @@ def main():
             print('Stopping the database server')
         subprocess.call(['sh','./db_scripts/postgis_stop.sh'])
 
+    user_defined_bbox = args.latitude_min and args.latitude_max and args.longitude_min and args.longitude_max
     
     ## API for Allen Coral Atlas downloads/imports
     if args.get_aca_benthic:
         if args.verbose:
             print('Loading Allen Coral Atlas benthic data into the database')
-        aca_benthic_extractor = AllenCoralBenthicExtractor()
+        if user_defined_bbox:
+            aca_benthic_extractor = AllenCoralBenthicExtractor(args.latitude_min,
+                                                                args.latitude_max,
+                                                                args.longitude_min,
+                                                                args.longitude_max)
+        else:
+            aca_benthic_extractor = AllenCoralBenthicExtractor()
         aca_benthic_extractor.extract_and_load()
     
     if args.get_aca_geomorphic:
@@ -68,6 +80,9 @@ def main():
             print('Loading CALIPSO data into the database')
         calipso_extractor = CALIPSOExtractor(verbose=args.verbose)
         calipso_extractor.extract_and_load()
+
+    if args.latitude_min:
+        print(args.latitude_min)
 
 
     
