@@ -70,7 +70,13 @@ def main():
     if args.get_aca_geomorphic:
         if args.verbose:
             print('Loading Allen Coral Atlas geomorphic data into the database')
-        aca_geomorphic_extractor = AllenCoralGeomorphicExtractor()
+        if user_defined_bbox:
+            aca_geomorphic_extractor = AllenCoralGeomorphicExtractor(args.latitude_min,
+                                                                    args.latitude_max,
+                                                                    args.longitude_min,
+                                                                    args.longitude_max)
+        else:
+            aca_geomorphic_extractor = AllenCoralGeomorphicExtractor()
         aca_geomorphic_extractor.extract_and_load()
 
 
