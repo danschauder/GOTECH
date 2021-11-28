@@ -28,7 +28,7 @@ class AllenCoralGeomorphicExtractor():
         ogr_cmd = 'ogr2ogr -f PostgreSQL'
         ogr_cmd= ogr_cmd + ' PG:"host=localhost port=5432 user=GOTECH dbname=coral_data"'
         ogr_cmd = ogr_cmd + f' {self.download_path+fname}/geomorphic_data_verbose.shp'
-        ogr_cmd = ogr_cmd + ' -nln raw.aca_geomorphic -geomfield geom'
+        ogr_cmd = ogr_cmd + ' -nlt PROMOTE_TO_MULTI -nln raw.aca_geomorphic -geomfield geom'
         subprocess.run(ogr_cmd, shell=True)
             
     def extract_and_load(self):
