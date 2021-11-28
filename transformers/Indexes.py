@@ -8,6 +8,9 @@ class Indexes():
         query=f'CREATE INDEX {index_name} ON {schema}.{table} USING GIST ({field});'
         conn.execute(query)
 
+    def add_index(self,index_name,schema,table,field,conn):
+        query=f'CREATE INDEX {index_name} ON {schema}.{table} {field};'
+        conn.execute(query)
         
     def create_indexes(self):
         engine = create_engine('postgresql://{}@{}:{}/{}'.format("GOTECH", "127.0.0.1",5432, "coral_data"))
@@ -22,3 +25,10 @@ class Indexes():
                                     'aca_benthic_4326',
                                     'wkb_geometry',
                                     conn)
+            
+            self.add_index('calipso_time_idx',
+                                    'raw',
+                                    'calipso',
+                                    '(cast("time_UTC" /100 as integer))',
+                                    conn)
+        conn.close()
