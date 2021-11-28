@@ -4,6 +4,7 @@ from extractors.AllenCoralGeomorphicExtractor import AllenCoralGeomorphicExtract
 from extractors.CALIPSOExtractor import CALIPSOExtractor
 from transformers.ACABenthicTransformer import ACABenthicTransformer
 from transformers.Indexes import Indexes
+from transformers.MergeData import MergeData
 
 def main():
 
@@ -40,6 +41,9 @@ def main():
 
     parser.add_argument('--transform_aca_benthic', dest='transform_aca_benthic',action='store_true')
     parser.set_defaults(transform_aca_benthic=False)
+
+    parser.add_argument('--merge', dest='merge',action='store_true')
+    parser.set_defaults(merge=False)
 
     args = parser.parse_args()
 
@@ -109,6 +113,13 @@ def main():
             print('Transforming ACA Data')
         transformer = ACABenthicTransformer()
         transformer.transform()
+
+    if args.merge:
+        if args.verbose:
+            print('Merging data')
+        merger = MergeData(verbose=args.verbose)
+        merger.merge()
+        
     
 
 if __name__=="__main__":
