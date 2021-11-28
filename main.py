@@ -2,6 +2,9 @@ import subprocess, argparse
 from extractors.AllenCoralBenthicExtractor import AllenCoralBenthicExtractor
 from extractors.AllenCoralGeomorphicExtractor import AllenCoralGeomorphicExtractor
 from extractors.CALIPSOExtractor import CALIPSOExtractor
+from transformers.ACABenthicTransformer import ACABenthicTransformer
+from transformers.Indexes import Indexes
+from transformers.MergeData import MergeData
 
 def main():
 
@@ -33,6 +36,14 @@ def main():
     parser.add_argument('--longitude_min', dest='longitude_min',type=float)
     parser.add_argument('--longitude_max', dest='longitude_max',type=float)
 
+    parser.add_argument('--create_indexes', dest='create_indexes',action='store_true')
+    parser.set_defaults(create_indexes=False)
+
+    parser.add_argument('--transform_aca_benthic', dest='transform_aca_benthic',action='store_true')
+    parser.set_defaults(transform_aca_benthic=False)
+
+    parser.add_argument('--merge', dest='merge',action='store_true')
+    parser.set_defaults(merge=False)
 
     args = parser.parse_args()
 
@@ -87,10 +98,28 @@ def main():
         calipso_extractor = CALIPSOExtractor(verbose=args.verbose)
         calipso_extractor.extract_and_load()
 
-    if args.latitude_min:
-        print(args.latitude_min)
+
+    ## API to create spatial indexes
+    if args.create_indexes:
+        if args.verbose:
+            print('Creating spatial indexes')
+        indexer = Indexes()
+        indexer.create_indexes()
 
 
+    ## API for Transformations / Cleaning, etc
+    if args.transform_aca_benthic:
+        if args.verbose:
+            print('Transforming ACA Data')
+        transformer = ACABenthicTransformer()
+        transformer.transform()
+
+    if args.merge:
+        if args.verbose:
+            print('Merging data')
+        merger = MergeData(verbose=args.verbose)
+        merger.merge()
+        
     
 
 if __name__=="__main__":
