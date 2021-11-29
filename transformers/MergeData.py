@@ -77,7 +77,7 @@ class MergeData():
         SELECT * FROM raw.calipso
         WHERE (cast("time_UTC" /100 as integer)) = {month};
         """
-        index_query="""CREATE INDEX 
+        index_query=f"""CREATE INDEX 
                         calipso_geom_idx2 ON {temp_table}
                         USING GIST (geometry);"""
         conn.execute(insert_query)
