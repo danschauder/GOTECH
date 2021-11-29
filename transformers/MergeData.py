@@ -33,9 +33,10 @@ class MergeData():
             """)
         else:
             conn.execute(f"""
-            select INTO {schema}.{dest_table}
+            select
                 c.*,
                 ab2.*
+            INTO {schema}.{dest_table}
             from 
                 {temp_table} c
             cross join lateral 
