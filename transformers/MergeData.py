@@ -97,9 +97,9 @@ class MergeData():
             self.create_temp_table(TEMP_TABLE,conn)
             calipso_months = self.get_calipso_months(conn)
             for month_result in calipso_months:
+                month=month_result[0]
                 if self.verbose:
                     print(f'Inserting data for month {month}')
-                month=month_result[0]
                 self.add_calipso_to_temp(TEMP_TABLE,month,conn)
                 self.update_table('models',TEMP_TABLE,'merged_full',conn)
                 conn.execute(f'TRUNCATE TABLE {TEMP_TABLE};')
