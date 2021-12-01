@@ -19,6 +19,13 @@ conda env create -f environment.yml
 conda activate GOTECH_env
 ```
 
+## Verbose Flag
+Include the following flag for detailed output to be printed to the console
+
+```
+python main.py --verbose
+```
+
 ## Database installation
 With the conda environment active, navigate to the project root and run the following command:
 ```
@@ -37,6 +44,11 @@ Run the following command to stop the database instance
 python main.py --stop_db
 ```
 
+Run the following command to create spatial indexes in the postgis database (dramatically improves performance)
+```
+python main.py --create_indexes
+```
+
 ## Extractors
 With the database instance running, run the following command to download Allen Coral Atlas benthic data and ingest it into the db
 ```
@@ -51,4 +63,15 @@ python main.py --get_aca_geomorphic
 With the database instance running, run the following command to download CALIPSO data and ingest it into the db
 ```
 python main.py --get_calipso
+```
+
+## Transformers
+With the database instance running, run the following command to perform transformations to prepare benthic data to be merged with ACA data
+```
+python main.py --transform_aca_benthic
+```
+
+With the database instance running, run the following command to merge data into a unified table
+```
+python main.py --merge
 ```
