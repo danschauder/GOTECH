@@ -5,6 +5,7 @@ from extractors.CALIPSOExtractor import CALIPSOExtractor
 from transformers.ACABenthicTransformer import ACABenthicTransformer
 from transformers.Indexes import Indexes
 from transformers.MergeData import MergeData
+from models import ModelCompetitionFramework
 
 def main():
 
@@ -44,6 +45,9 @@ def main():
 
     parser.add_argument('--merge', dest='merge',action='store_true')
     parser.set_defaults(merge=False)
+
+    parser.add_argument('--run_models', dest='run_models',action='store_true')
+    parser.set_defaults(run_models=False)
 
     args = parser.parse_args()
 
@@ -126,6 +130,11 @@ def main():
             print('Merging data')
         merger = MergeData(verbose=args.verbose)
         merger.merge()
+
+    if args.run_models:
+        if args.verbose:
+            print('Running models')
+        ModelCompetitionFramework.run()
         
     
 

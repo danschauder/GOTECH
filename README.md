@@ -81,3 +81,9 @@ With the database instance running, run the following command to merge data into
 ```
 python main.py --merge
 ```
+
+## Models
+To train and test classification models and view the results, run the following command
+```
+python main.py --run_models
+```

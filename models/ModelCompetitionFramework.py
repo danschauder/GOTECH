@@ -127,7 +127,7 @@ class ModelCompetition:
             self.scores.append(accuracy_score(self.y_test, model))
 
 
-if __name__ == "__main__":
+def run():
     print("Importing Florida Data")
     gdf_class_test = pd.read_csv('florida_200_classified.csv')
     gdf_class_test = gdf_class_test[gdf_class_test['class'] != 'Seagrass']
