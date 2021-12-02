@@ -65,6 +65,12 @@ With the database instance running, run the following command to download CALIPS
 python main.py --get_calipso
 ```
 
+The default bounding box for all extractors includes the Florida region. To set a different bounding box, use the full set of flags to specify the corners of a custom bounding box, like so:
+
+```
+python main.py --get_calipso --latitude_min -82.0 --latitude_max -80.0 --longitude_min 24.001 --longitude_max 26.22
+```
+
 ## Transformers
 With the database instance running, run the following command to perform transformations to prepare benthic data to be merged with ACA data
 ```

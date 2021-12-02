@@ -95,7 +95,14 @@ def main():
     if args.get_calipso:
         if args.verbose:
             print('Loading CALIPSO data into the database')
-        calipso_extractor = CALIPSOExtractor(verbose=args.verbose)
+        if user_defined_bbox:
+            calipso_extractor = CALIPSOExtractor(latitude_min=args.latitude_min,
+                                                latitude_max=args.latitude_max,
+                                                longitude_min=args.longitude_min,
+                                                longitude_max=args.longitude_max,
+                                                verbose=args.verbose)
+        else:
+            calipso_extractor = CALIPSOExtractor(verbose=args.verbose)
         calipso_extractor.extract_and_load()
 
 

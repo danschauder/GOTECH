@@ -12,16 +12,28 @@ from sqlalchemy import create_engine
 from multiprocessing import Pool
 
 class CALIPSOExtractor():
-    def __init__(self,years=['2021'],months=['01','02','03','04'],verbose=False):
+    def __init__(self,years=['2021'],
+                        months=['01','02','03','04'],
+                        latitude_min=-82.882919311523, 
+                        latitude_max=-79.850692749023, 
+                        longitude_min=24.208717346191,
+                        longitude_max=26.405982971191,
+                        verbose=False):
         self.years=years
         self.months=months
+        self.latitude_min=latitude_min
+        self.latitude_max=latitude_max
+        self.longitude_min=longitude_min
+        self.longitude_max=longitude_max
         self.verbose=verbose
         self.baseurl = 'https://opendap.larc.nasa.gov/opendap/CALIPSO/LID_L1-Standard-V4-11'
 
-    def get_calipso_data(self,url,lat_range=[24.208717346191,26.405982971191],lon_range=[-82.882919311523,-79.850692749023]):
+    def get_calipso_data(self,url):
         """
         Function to download CALIPSO data for a given url
         """
+        lat_range = [self.longitude_min,self.longitude_max]
+        lon_range = [self.latitude_min,self.latitude_max]
         dataset = open_url(url)
         lat_vals = dataset['Latitude'][:].data
         lon_vals = dataset['Longitude'][:].data
